@@ -1,0 +1,83 @@
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
+import Profile from "./components/Profile";
+import SignUpPage from "./components/SignUpPage";
+import Login from "./components/Login";
+import Hero from "./components/Hero";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Check from "./components/Check";
+import NewPage from "./components/NewPage";
+import useAuth from "./hooks/useAuth";
+import Message from "./components/Message";
+import Th from "./components/Th";
+import Video from "./components/Video";
+import Room from "./components/Room";
+
+function App() {
+  const { user } = useAuth();
+
+  return (
+    <Router>
+      {user ? (
+        <Routes>
+          <Route path="/" element={<Hero />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/check" element={<Check />} />
+          <Route path="/newPage" element={<NewPage />} />
+          <Route path="/th" element={<Th />} />
+          <Route path="/video" element={<Video />} />
+          <Route path="/room/:roomID" element={<Room />} />
+
+          <Route path='/messages' element={<Message/>} />
+
+          {/* Redirect to profile if user exists */}
+          
+         
+        </Routes>
+      ) : (
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<SignUpPage />} />
+         
+        </Routes>
+      )}
+    </Router>
+  );
+}
+export default App;
+
+// return (
+//   <Router>
+//     <div className="App">
+//       <div className="auth-wrapper">
+//         <div className="auth-inner">
+//           <Routes>
+//             <Route
+//               path="/"
+//               element={user ? <Navigate to="/newPage" /> : <Hero />}
+//             />
+//             <Route path="/login" element={<Login />} />
+//             <Route path="/signup" element={<SignUpPage />} />
+//             <Route path="/profile" element={<Profile />} />
+//             <Route path="/check" element={<Check />} />
+//             {/* Route for Main page accessible without login */}
+
+//             {/* Only render NewPage if user is logged in */}
+//             {user && <Route path="/newPage" element={<NewPage />} />}
+//             {/* Redirect to login if user tries to access NewPage while not logged in */}
+//             {!user && <Route path="/newPage" element={<Navigate to="/login" />} />}
+//           </Routes>
+//           <ToastContainer />
+//         </div>
+//       </div>
+//     </div>
+//   </Router>
+// );
